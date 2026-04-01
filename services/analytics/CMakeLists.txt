@@ -1,0 +1,5 @@
+add_library(analytics-service SHARED AnalyticsService.cpp)
+target_include_directories(analytics-service PRIVATE ${RBSYS_INCLUDE_DIRS})
+target_link_libraries(analytics-service PRIVATE ${RBSYS_LIBRARIES})
+set_target_properties(analytics-service PROPERTIES PREFIX "" OUTPUT_NAME "analytics-service")
+service_target_warnings(analytics-service)

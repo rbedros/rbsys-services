@@ -1,0 +1,5 @@
+add_library(order-service SHARED OrderService.cpp)
+target_include_directories(order-service PRIVATE ${RBSYS_INCLUDE_DIRS})
+target_link_libraries(order-service PRIVATE ${RBSYS_LIBRARIES})
+set_target_properties(order-service PROPERTIES PREFIX "" OUTPUT_NAME "order-service")
+service_target_warnings(order-service)

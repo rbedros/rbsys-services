@@ -1,0 +1,32 @@
+<services>
+  <discovery type="consul" address="localhost" port="8500"/>
+  <messaging type="amqp" host="localhost" port="5672"/>
+
+  <service name="OrderService" port="8081">
+    <transport type="amqp" exchange="orders" routingKey="order.create" queue="order_queue"/>
+    <depends>InventoryService</depends>
+    <health interval="5s" timeout="2s"/>
+    <circuitBreaker failureThreshold="5" timeout="10s"/>
+    <retry maxRetries="3" initialDelay="100ms" backoff="2.0" jitter="true"/>
+    <loadBalancer strategy="round-robin"/>
+  </service>
+
+  <service name="InventoryService" port="8082">
+    <transport type="amqp" exchange="inventory" routingKey="inventory.check" queue="inventory_queue"/>
+    <depends>NotificationService</depends>
+    <health interval="5s" timeout="2s"/>
+    <circuitBreaker failureThreshold="3" timeout="5s"/>
+    <retry maxRetries="2" initialDelay="50ms"/>
+  </service>
+
+  <service name="NotificationService" port="8083">
+    <transport type="amqp" exchange="notifications" routingKey="notify.send" queue="notify_queue"/>
+    <health interval="5s" timeout="2s"/>
+  </service>
+
+  <service name="AnalyticsService" port="8084">
+    <transport type="kafka" topic="order-events" brokers="localhost:9092"/>
+    <depends>OrderService</depends>
+    <health interval="10s" timeout="3s"/>
+  </service>
+</services>

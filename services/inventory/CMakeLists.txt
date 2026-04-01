@@ -1,0 +1,5 @@
+add_library(inventory-service SHARED InventoryService.cpp)
+target_include_directories(inventory-service PRIVATE ${RBSYS_INCLUDE_DIRS})
+target_link_libraries(inventory-service PRIVATE ${RBSYS_LIBRARIES})
+set_target_properties(inventory-service PROPERTIES PREFIX "" OUTPUT_NAME "inventory-service")
+service_target_warnings(inventory-service)

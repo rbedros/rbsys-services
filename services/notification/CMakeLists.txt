@@ -1,0 +1,5 @@
+add_library(notification-service SHARED NotificationService.cpp)
+target_include_directories(notification-service PRIVATE ${RBSYS_INCLUDE_DIRS})
+target_link_libraries(notification-service PRIVATE ${RBSYS_LIBRARIES})
+set_target_properties(notification-service PROPERTIES PREFIX "" OUTPUT_NAME "notification-service")
+service_target_warnings(notification-service)
